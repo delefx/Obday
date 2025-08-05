@@ -18,6 +18,8 @@
     font-family: 'Laila', sans-serif;
     background-color: gray;
     color: white;
+    border: 5px solid green;
+
   }
   #testimony-text {
     font-family: 'Laila', sans-serif;
@@ -28,6 +30,3 @@
     font-weight: 600;
     color: antiquewhite;
   } 
-  #jerry{
-    border: 5px solid green;
-  }
