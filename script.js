@@ -1,50 +1,55 @@
-const canvas = document.getElementById('fireworksCanvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const canvas = document.getElementById("fireworksCanvas");
+const ctx = canvas.getContext("2d");
 
-function random(min, max) {
-  return Math.random() * (max - min) + min;
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
 }
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-const particles = [];
+let particles = [];
 
 function createFirework() {
-  const x = random(100, canvas.width - 100);
-  const y = random(100, canvas.height / 2);
-  const count = 80;
-  for (let i = 0; i < count; i++) {
-    const angle = (Math.PI * 2 * i) / count;
-    const speed = random(1, 6);
+  const x = Math.random() * canvas.width;
+  const y = Math.random() * canvas.height / 2;
+  const colors = ["#FF5F6D", "#FFC371", "#FFD700", "#00E6E6", "#FF66FF"];
+  const particleCount = Math.floor(Math.random() * 100) + 50;
+
+  for (let i = 0; i < particleCount; i++) {
+    const color = colors[Math.floor(Math.random() * colors.length)];
     particles.push({
-      x, y,
-      dx: Math.cos(angle) * speed,
-      dy: Math.sin(angle) * speed,
-      life: 0,
-      color: `hsl(${Math.floor(random(0, 360))}, 100%, 60%)`
+      x,
+      y,
+      dx: (Math.random() - 0.5) * 4,
+      dy: (Math.random() - 0.5) * 4,
+      radius: 2,
+      alpha: 1,
+      color
     });
   }
 }
 
+
 function animate() {
-  ctx.fillStyle = 'rgba(63, 60, 83, 0.15)';
+  ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   particles.forEach((p, i) => {
-    p.x += p.dx;
-    p.y += p.dy;
-    p.dy += 0.05; // gravity
-    p.life += 1;
-    ctx.fillStyle = p.color;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 100, 100, ${p.alpha})`;
     ctx.fill();
 
-    if (p.life > 80) particles.splice(i, 1);
+    p.x += p.dx;
+    p.y += p.dy;
+    p.alpha -= 0.01;
+
+    if (p.alpha <= 0) particles.splice(i, 1);
   });
 
   requestAnimationFrame(animate);
 }
 
-setInterval(createFirework, 1200);
+setInterval(createFirework, 700);
 animate();
