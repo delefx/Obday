@@ -30,3 +30,11 @@
     font-weight: 600;
     color: antiquewhite;
   } 
+
+    #testimony_2 {
+    font-family: 'Laila', sans-serif;
+    background-color: rgb(214, 105, 181);
+    color: white;
+    border: 5px solid rgb(19, 191, 197);
+
+  }
